@@ -17,6 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 
 import aozdemir.sudoku.exceptions.NoSolutionException;
 
@@ -48,7 +49,7 @@ public class App extends JFrame implements KeyListener, ActionListener{
 	}
 	
 	private void createToolbar() {
-		JPanel toolbar = new JPanel();
+		JToolBar toolbar = new JToolBar();
 		createSolveButton(toolbar);
 		createLoadButton(toolbar);
 		createSaveButton(toolbar);
@@ -56,12 +57,12 @@ public class App extends JFrame implements KeyListener, ActionListener{
 		container.add(toolbar, BorderLayout.PAGE_START);
 	}
 
-	private void createMessageDisplay(JPanel toolbar) {
+	private void createMessageDisplay(JToolBar toolbar) {
 		message = new JLabel();
 		toolbar.add(message);
 	}
 
-	private void createSolveButton(JPanel toolbar) {
+	private void createSolveButton(JToolBar toolbar) {
 		JButton solve = new JButton("Solve");
 		solve.setFocusable(false);
 		solve.setActionCommand(SOLVE);
@@ -69,7 +70,7 @@ public class App extends JFrame implements KeyListener, ActionListener{
 		toolbar.add(solve);
 	}
 	
-	private void createLoadButton(JPanel toolbar) {
+	private void createLoadButton(JToolBar toolbar) {
 		JButton load = new JButton("Load");
 		load.setFocusable(false);
 		load.setActionCommand(LOAD);
@@ -77,7 +78,7 @@ public class App extends JFrame implements KeyListener, ActionListener{
 		toolbar.add(load);
 	}
 	
-	private void createSaveButton(JPanel toolbar) {
+	private void createSaveButton(JToolBar toolbar) {
 		JButton save = new JButton("Save");
 		save.setFocusable(false);
 		save.setActionCommand(SAVE);

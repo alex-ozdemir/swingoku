@@ -1,5 +1,6 @@
 package aozdemir.sudoku;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class ColorBoard extends Board {
@@ -53,23 +54,22 @@ public class ColorBoard extends Board {
 	}
 	
 	private boolean checkRow(int r) {
-		setupPossibleEntries();
+		boolean result = false;
+		HashMap<Character, Integer> entryLocations = new HashMap<Character, Integer>();
 		for(int c = 0; c < width; c++) {
-			if (cells[r][c].content != ' ')	{	
-				if (possibleEntries.contains(cells[r][c].content)) {
-					possibleEntries.remove(new Character(cells[r][c].content));
-				} else {
-					alertRow(r);
-					return true;
+			char ch = cells[r][c].content;
+			if (ch != ' ')	{
+				if (!entryLocations.containsKey(ch))
+					entryLocations.put(ch, c);
+				else {
+					cells[r][c].alertBackground();
+					Cell duplicate = cells[r][entryLocations.get(ch)];
+					duplicate.alertBackground();
+					result = true;
 				}
 			}
 		}
-		return false;
-	}
-
-	private void alertRow(int r) {
-		for (Cell cell : cells[r])
-			cell.alertBackground();
+		return result;
 	}
 
 	private boolean checkColumns() {
@@ -80,23 +80,22 @@ public class ColorBoard extends Board {
 	}
 
 	private boolean checkColumn(int c) {
-		setupPossibleEntries();
+		boolean result = false;
+		HashMap<Character, Integer> entryLocations = new HashMap<Character, Integer>();
 		for(int r = 0; r < width; r++) {
-			if (cells[r][c].content != ' ')	{	
-				if (possibleEntries.contains(cells[r][c].content)) {
-					possibleEntries.remove(new Character(cells[r][c].content));
-				} else {
-					alertColumn(c);
-					return true;
+			char ch = cells[r][c].content;
+			if (ch != ' ')	{	
+				if (!entryLocations.containsKey(ch))
+					entryLocations.put(ch, r);
+				else {
+					cells[r][c].alertBackground();
+					Cell duplicate = cells[entryLocations.get(ch)][c];
+					duplicate.alertBackground();
+					result = true;
 				}
 			}
 		}
-		return false;
-	}
-	
-	private void alertColumn(int c) {
-		for (int r = 0; r < height; r++)
-			cells[r][c].alertBackground();
+		return result;
 	}
 
 	private boolean checkBoxes() {
@@ -107,24 +106,24 @@ public class ColorBoard extends Board {
 	}
 	
 	private boolean checkBox(int b) {
-		setupPossibleEntries();
+		boolean result = false;
+		HashMap<Character, Integer> entryLocations = new HashMap<Character, Integer>();
 		Cell[] box = boxes[b];
 		for (int i = 0; i < box.length; i++) {
-			if (box[i].content != ' ') {	
-				if (possibleEntries.contains(box[i].content)) {
-					possibleEntries.remove(new Character(box[i].content));
-				} else {
-					alertBox(b);
-					return true;
+			Cell cell = box[i];
+			char ch = cell.content;
+			if (ch != ' ')	{	
+				if (!entryLocations.containsKey(ch))
+					entryLocations.put(ch, i);
+				else {
+					cells[cell.row][cell.column].alertBackground();
+					Cell duplicate = box[entryLocations.get(ch)];
+					duplicate.alertBackground();
+					result = true;
 				}
 			}
 		}
-		return false;	
-	}
-
-	private void alertBox(int b) {
-		for (int i = 0; i < height * width / numberOfBoxes; i++)
-			this.boxes[b][i].alertBackground();
+		return result;
 	}
 	
 	private void clearColors() {

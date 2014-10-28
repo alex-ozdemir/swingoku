@@ -77,4 +77,8 @@ public class Cell extends JLabel{
 	public void alertBackground() {
 		this.setBackground(ALERT_BACKGROUND);
 	}
+	
+	public boolean equals(Cell other) {
+		return this.row == other.row && this.column == other.column;
+	}
 }
